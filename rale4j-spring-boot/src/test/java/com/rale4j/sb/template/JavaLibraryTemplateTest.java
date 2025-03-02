@@ -1,4 +1,4 @@
-package dev.thriving.oss.java.library.template;
+package com.rale4j.sb;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

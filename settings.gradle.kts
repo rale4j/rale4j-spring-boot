@@ -1,3 +1,3 @@
-rootProject.name = "java-library-template"
+rootProject.name = "rale4j-spring-boot"
 
-include("java-library-template")
+include("rale4j-spring-boot")

@@ -1,4 +1,4 @@
-group = "dev.thriving.oss"
+group = "com.rale4j"
 
 plugins {
     alias(libs.plugins.publish)

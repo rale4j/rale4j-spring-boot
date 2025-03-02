@@ -1,4 +1,4 @@
-group = "dev.thriving.oss"
+group = "com.rale4j"
 
 object Meta {
     const val release = "https://s01.oss.sonatype.org/service/local/"
@@ -6,11 +6,11 @@ object Meta {
     const val desc = "OSS GitHub Java Library Template Repository"
     const val license = "Apache-2.0"
     const val licenseUrl = "https://opensource.org/licenses/Apache-2.0"
-    const val githubRepo = "thriving-dev/java-library-template"
-    const val developerId = "hartmut-co-uk"
-    const val developerName = "Hartmut Armbruster"
-    const val developerOrganization = "thriving.dev"
-    const val developerOrganizationUrl = "https://thriving.dev"
+    const val githubRepo = "rale4j/rale4j-spring-boot"
+    const val developerId = "jvlavan"
+    const val developerName = "Your Name"
+    const val developerOrganization = "ACME Corporation"
+    const val developerOrganizationUrl = "https://yourdomain.com"
 }
 
 java {

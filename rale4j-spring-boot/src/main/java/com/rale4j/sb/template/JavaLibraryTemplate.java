@@ -1,4 +1,4 @@
-package dev.thriving.oss.java.library.template;
+package com.rale4j.sb;
 
 /**
  * Javadoc for {@link JavaLibraryTemplate}
