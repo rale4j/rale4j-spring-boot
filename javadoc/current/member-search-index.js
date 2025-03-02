@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.rale4j.sb","c":"JavaLibraryTemplate","l":"JavaLibraryTemplate()","u":"%3Cinit%3E()"},{"p":"com.rale4j.sb","c":"JavaLibraryTemplate","l":"toFunkyCase(String)","u":"toFunkyCase(java.lang.String)"}];updateSearchResults();
