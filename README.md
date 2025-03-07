@@ -12,7 +12,7 @@
 - Use Gradle with Kotlin DSL
 
 ## Credits
-- inspired by https://github.com/cortinico/kotlin-android-template
-- PR & issue templates adapted from https://github.com/nuxt/nuxt
+- Base CI/CD actions adapted from by [Kotlin Template](https://github.com/cortinico/kotlin-android-template)
+- PR & issue templates adapted from [Nuxt](https://github.com/nuxt/nuxt)
 - Maven ,Security scan and Java Docs templates adapted from [Java Library Template](https://github.com/thriving-dev/java-library-template)  
 
