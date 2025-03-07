@@ -10,3 +10,9 @@
 - To publish core Rate limiting enhancement plugin to maven central
 - With Compatibility with maven
 - Use Gradle with Kotlin DSL
+
+## Credits
+- inspired by https://github.com/cortinico/kotlin-android-template
+- PR & issue templates adapted from https://github.com/nuxt/nuxt
+- Maven and Java Docs templates adopted [Java Library Template](https://github.com/thriving-dev/java-library-template)  
+
