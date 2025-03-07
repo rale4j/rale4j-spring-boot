@@ -14,5 +14,5 @@
 ## Credits
 - inspired by https://github.com/cortinico/kotlin-android-template
 - PR & issue templates adapted from https://github.com/nuxt/nuxt
-- Maven and Java Docs templates adopted [Java Library Template](https://github.com/thriving-dev/java-library-template)  
+- Maven and Java Docs templates adopted from [Java Library Template](https://github.com/thriving-dev/java-library-template)  
 
