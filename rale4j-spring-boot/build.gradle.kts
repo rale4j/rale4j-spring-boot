@@ -71,6 +71,47 @@ tasks.withType<Test> {
     }
 }
 
+// Define integration test source set and task
+sourceSets {
+    create("intTest") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+
+val intTestImplementation by configurations.getting {
+    extendsFrom(configurations.testImplementation.get())
+}
+val intTestRuntimeOnly by configurations.getting {
+    extendsFrom(configurations.testRuntimeOnly.get())
+}
+
+dependencies {
+    intTestImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4")
+    intTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    intTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+}
+
+tasks.register<Test>("intTest") {
+    description = "Runs integration tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["intTest"].output.classesDirs
+    classpath = sourceSets["intTest"].runtimeClasspath
+
+    useJUnitPlatform()
+
+    testLogging {
+        events = setOf(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
+    }
+}
+
+tasks.named("check") {
+    dependsOn("intTest")
+}
+
+// Publishing and signing configurations remain the same
+
 // Publishing to Sonatype Snapshots Repository
 publishing {
     publications {
