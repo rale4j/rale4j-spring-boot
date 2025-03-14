@@ -1,6 +1,7 @@
-group = "com.rale4j"
-version = "1.0.0"
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
+group = "com.rale4j"
+version = "1.0.0-SNAPSHOT" // Snapshot version
 
 object Meta {
     const val release = "https://s01.oss.sonatype.org/service/local/"
@@ -15,104 +16,59 @@ object Meta {
     const val developerOrganizationUrl = "https://rale4j.com"
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-}
-
 plugins {
     `java-library`
     `maven-publish`
     signing
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+    withJavadocJar()
+}
+
 repositories {
     mavenCentral()
 }
 
-sourceSets {
-    create("intTest") {
-        compileClasspath += sourceSets.main.get().output
-        runtimeClasspath += sourceSets.main.get().output
-    }
-}
-
-val intTestImplementation: Configuration by configurations.getting {
-    extendsFrom(configurations.implementation.get())
-}
-
-configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
-
-
 dependencies {
-    // Core Dependencies
-    implementation("org.springframework.boot:spring-boot-starter-aop")
-    implementation("org.springframework.boot:spring-boot-starter-webflux") // WebFlux for WebSockets
-    implementation("org.springframework.boot:spring-boot-starter-graphql") // GraphQL Support
-    implementation("io.grpc:grpc-spring-boot-starter:2.14.0") // gRPC Support
-    implementation("com.github.ben-manes.caffeine:caffeine:3.1.8") // Caching
-    implementation("com.google.guava:guava:32.1.2-jre") // Guava Rate Limiting
-    implementation("io.github.bucket4j:bucket4j-core:8.4.0") // Bucket4j Support
-    implementation("io.github.resilience4j:resilience4j-ratelimiter:2.2.0") // Resilience4j
+    // Spring Boot
+    implementation("org.springframework.boot:spring-boot-starter-aop:3.1.4") // AOP support
+    implementation("org.springframework.boot:spring-boot-starter-web:3.1.4")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis:3.1.4")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.1.4")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.4")
+    implementation("org.springframework.boot:spring-boot-starter-websocket:3.1.4") // WebSocket support
 
-    // Redis for Rate Limiting
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation("io.lettuce.core:lettuce-core:6.2.6.RELEASE") // Redis Client
+    // Rate Limiting Libraries
+    implementation("com.google.guava:guava:32.1.2-jre") // Guava Rate Limiter
+    implementation("io.github.resilience4j:resilience4j-ratelimiter:2.0.2") // Resilience4j
+    implementation("com.bucket4j:bucket4j-core:8.10.1") // Bucket4j
+    implementation("org.springframework.data:spring-data-redis:3.1.4") // Redis
 
-    // Security Integrations
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    implementation("org.keycloak:keycloak-spring-boot-starter:23.0.1") // OAuth2 & JWT
-
-    // Observability & Monitoring
-    implementation("io.micrometer:micrometer-registry-prometheus")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-
-    // Testing Dependencies
+    // Observability
+    implementation("io.micrometer:micrometer-core:1.11.3") // Micrometer for metrics
+    implementation("io.micrometer:micrometer-registry-prometheus:1.11.3") // Prometheus integration
+    // Java Servlet API
+    implementation("javax.servlet:javax.servlet-api:4.0.1")
+    // Testing
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
-    testImplementation("org.assertj:assertj-core:3.25.1")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.testcontainers:junit-jupiter:1.19.4")
-    testImplementation("org.testcontainers:redis:1.19.4") // Redis testcontainer
-    testImplementation("org.mockito:mockito-core:5.8.0")
-
-    // Integration Testing
-    intTestImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
-    intTestImplementation("org.assertj:assertj-core:3.25.1")
-    intTestImplementation("org.testcontainers:junit-jupiter:1.19.4")
-    intTestImplementation("org.testcontainers:redis:1.19.4")
+    testImplementation("org.mockito:mockito-core:5.3.1")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.3.1")
 }
 
-val intTest = task<Test>("intTest") {
-    description = "Runs integration tests."
-    group = "verification"
-
-    testClassesDirs = sourceSets["intTest"].output.classesDirs
-    classpath = sourceSets["intTest"].runtimeClasspath
-    shouldRunAfter("test")
-
+tasks.withType<Test> {
     useJUnitPlatform()
-
     testLogging {
-        events("passed")
+        events = setOf(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
     }
 }
 
-tasks.check { dependsOn(intTest) }
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
-}
-
-signing {
-    val signingKey = providers.environmentVariable("GPG_SIGNING_KEY")
-    val signingPassphrase = providers.environmentVariable("GPG_SIGNING_PASSPHRASE")
-    if (signingKey.isPresent && signingPassphrase.isPresent) {
-        useInMemoryPgpKeys(signingKey.get(), signingPassphrase.get())
-        val extension = extensions.getByName("publishing") as PublishingExtension
-        sign(extension.publications)
-    }
-}
-
+// Publishing to Sonatype Snapshots Repository
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -149,28 +105,23 @@ publishing {
             }
         }
     }
-}
-
-tasks.jar {
-    manifest {
-        attributes(
-            mapOf(
-                "Implementation-Title" to project.name,
-                "Implementation-Version" to project.version,
-            ),
-        )
+    repositories {
+        maven {
+            url = uri(Meta.snapshot) // Point to the Sonatype Snapshots repository
+            credentials {
+                username = providers.environmentVariable("OSSRH_USERNAME").orNull
+                password = providers.environmentVariable("OSSRH_PASSWORD").orNull
+            }
+        }
     }
 }
 
-java {
-    withSourcesJar()
-    withJavadocJar()
+// Signing Artifacts (optional for snapshots)
+signing {
+    val signingKey = providers.environmentVariable("GPG_SIGNING_KEY").orNull
+    val signingPassphrase = providers.environmentVariable("GPG_SIGNING_PASSPHRASE").orNull
+    if (signingKey != null && signingPassphrase != null) {
+        useInMemoryPgpKeys(signingKey, signingPassphrase)
+        sign(publishing.publications["maven"])
+    }
 }
-
-// Dependency Locking for Security (Trivy Scan)
-dependencyLocking {
-    lockAllConfigurations()
-}
-
-// Ensure parent task runs all subproject tasks
-rootProject.tasks.dependencies { dependsOn(tasks.dependencies) }

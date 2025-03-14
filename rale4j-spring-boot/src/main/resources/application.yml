@@ -1,0 +1,48 @@
+rale4j:
+  strategies:
+    guava:
+      enabled: true
+    redis:
+      enabled: true
+      host: 127.0.0.1
+      port: 6379
+    tokenBucket:
+      enabled: true
+    resilience4j:
+      enabled: true
+    bucket4j:
+      enabled: true
+
+  limits:
+    default:
+      limit: 100
+      duration: 60
+    metrics:
+      limit: 10
+      duration: 60
+
+  security:
+    jwt:
+      enabled: true
+    oauth2:
+      enabled: true
+    apiKey:
+      enabled: true
+    rbac:
+      enabled: true
+
+  observability:
+    prometheus:
+      enabled: true
+    grafana:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
