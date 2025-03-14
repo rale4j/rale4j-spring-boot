@@ -3,6 +3,7 @@ group = "com.rale4j"
 plugins {
     alias(libs.plugins.publish)
     alias(libs.plugins.release)
+    id("jvm-toolchains")
 }
 
 nexusPublishing {

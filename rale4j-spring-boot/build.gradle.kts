@@ -20,6 +20,7 @@ plugins {
     `java-library`
     `maven-publish`
     signing
+    id("jvm-toolchains")
 }
 
 java {
@@ -52,11 +53,13 @@ dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus:1.11.3") // Prometheus integration
     // Java Servlet API
     implementation("javax.servlet:javax.servlet-api:4.0.1")
+
     // Testing
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine") // Exclude JUnit 4
+    }
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
     testImplementation("org.mockito:mockito-core:5.3.1")
     testImplementation("org.mockito:mockito-junit-jupiter:5.3.1")
 }
