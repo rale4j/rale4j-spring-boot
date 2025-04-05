@@ -35,9 +35,9 @@ implementation group: 'com.rale4j', name: 'rale4j-core', version: '1.0.0'
 ```
 ## ⚙️ Getting Started
 
-    Install Rale4j using the dependencies above.
-    Configure Rate Limits in application.properties (or application.yml).
-    Use the `@Rale4j` Annotation to enforce limits.
+- Install Rale4j using the dependencies above.
+- Configure Rate Limits in application.properties (or application.yml).
+- Use the `@Rale4j` Annotation to enforce limits.
 # Features
 - To publish core Rate limiting enhancement plugin to maven central
 - With Compatibility with maven
