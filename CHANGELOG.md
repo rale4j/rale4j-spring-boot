@@ -1,27 +1,27 @@
-# Changelog
-All notable changes to this project will be documented in this file.
+# 📦 Rale4j Changelog
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+All notable changes to **Rale4j** will be documented in this file.
 
 
-## Template [x.y.z](https://github.com/rale4j/rale4j-spring-boot/releases/tag/x.y.z) (yyyy-mm-dd)
-[a.b.c...x.y.z](https://github.com/rale4j/rale4j-spring-boot/compare/a.b.c...x.y.z)
 
-### Added
-- for new features
+## [1.0.0] - 2025-04-05
 
-### Changed
-- for changes in existing functionality
+🎉 Initial Release of **Rale4j** – *Rate Limiting Enhancement for Java Devs*
 
-### Deprecated
-- for soon-to-be removed features
+### 🚀 Features
 
-### Removed
-- for now removed features
+- ✅ Annotation-based rate limiting with `@Rale4j`
+- ⚙️ Configuration support via `application.properties` / `application.yml`
+- 📦 Maven Central publishing
 
-### Fixed
-- for any bug fixes
 
-### Security
-- in case of vulnerabilities
+
+
+## 💡 Coming Soon
+
+- IntelliJ  plugin publishing
+- JMeter test profiles for performance benchmarking
+
+
+
+> Made with ❤️ by the Rale4j team | [rale4j.com](https://rale4j.com)
